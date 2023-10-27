@@ -1,14 +1,9 @@
-import { api } from "@/trpc/server";
+import Link from "next/link";
 
 const AdminDashBoard = async () => {
-  const projects = await api.project.getAllProjects.query();
   return (
     <div>
-      <div>
-        {projects.map((project) => (
-          <div key={project.id}>{project.name}</div>
-        ))}
-      </div>
+      <Link href={"/admin/add"}>Add Project</Link>
     </div>
   );
 };

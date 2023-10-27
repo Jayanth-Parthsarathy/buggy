@@ -3,7 +3,7 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
+  adminProcedure,
 } from "@/server/api/trpc";
 
 export const projectRouter = createTRPCRouter({
@@ -13,4 +13,15 @@ export const projectRouter = createTRPCRouter({
       where: { createdBy: { id: ctx.session.user.id } },
     });
   }),
+  createProject: adminProcedure
+    .input(z.object({ name: z.string().min(5), description: z.string().min(5) }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.project.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          createdById: ctx.session.user.id
+        },
+      });
+    }),
 });

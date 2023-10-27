@@ -4,13 +4,13 @@ import { DashboardHeader } from "@/components/custom/header";
 import { getServerAuthSession } from "@/server/auth";
 
 export default async function Home() {
-  const session = await getServerAuthSession()
+  const session = await getServerAuthSession();
   return (
     <div className="p-4">
       <DashboardHeader heading="Bugger 🐛" text="A bug tracking app">
-      <AuthButton session={session} />
+        <AuthButton session={session} />
       </DashboardHeader>
-      <Dashboard  session={session}/>
+      <Dashboard session={session} />
     </div>
   );
 }
