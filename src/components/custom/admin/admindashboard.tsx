@@ -1,6 +1,6 @@
 const AdminDashBoard = () => {
   return (
-    <div className="px-6">
+    <div className="">
      List of graphs // Todo 
     </div>
   );

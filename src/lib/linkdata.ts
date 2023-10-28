@@ -14,12 +14,12 @@ export const adminLinks: Link[] = [
     href: "/admin/projects",
   },
   {
-    text: "Manage Members",
-    href: "/admin/members",
-  },
-  {
     text: "Manage Tickets",
     href: "/admin/tickets",
+  },
+  {
+    text: "Manage Members",
+    href: "/admin/members",
   },
 ];
 

@@ -1,9 +1,12 @@
+import DeleteProject from "@/components/custom/admin/deleteproject";
+import DeleteProjectButton from "@/components/custom/admin/deleteprojectbutton";
 import { api } from "@/trpc/server";
 import { Edit, Trash } from "lucide-react";
 import Link from "next/link";
 
 const ProjectManagementPage = async () => {
   const projects = await api.project.getAllProjects.query();
+
   return (
     <div className="p-4">
       <h1 className="mb-4 mt-4 px-4 text-2xl font-bold">Project Management</h1>
@@ -19,12 +22,10 @@ const ProjectManagementPage = async () => {
             </Link>
             <p className="text-gray-600">{project.description}</p>
             <div className="flex justify-between">
-              <Link href={`/admin/project/edit/${project.id}`}>
+              <Link href={`/admin/projects/edit/${project.id}`}>
                 <Edit className="text-green-500" />
               </Link>
-              <Link href={`/admin/project/delete/${project.id}`}>
-                <Trash className="text-red-500" />
-              </Link>
+              <DeleteProject projectId={project.id} />
             </div>
           </div>
         ))}
