@@ -21,14 +21,16 @@ export const memberRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findFirst({ where: { id: input } });
       const updatedValue = !user?.isBanned;
-      await ctx.db.user.update({
-        where: {
-          id: input,
-        },
-        data: {
-          isBanned: updatedValue,
-        },
-      });
+      if (user?.role !== "ADMIN") {
+        await ctx.db.user.update({
+          where: {
+            id: input,
+          },
+          data: {
+            isBanned: updatedValue,
+          },
+        });
+      }
       return user;
     }),
 });

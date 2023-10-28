@@ -24,6 +24,11 @@ export const ticketRouter = createTRPCRouter({
       include: {
         reporter: true,
         assignedTo: true,
+        comments: {
+          include: {
+            author: true,
+          },
+        },
       },
     });
   }),

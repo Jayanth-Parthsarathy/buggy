@@ -1,7 +1,9 @@
+import Graphs from "./graphs";
+
 const AdminDashBoard = () => {
   return (
     <div className="">
-     List of graphs // Todo 
+     <Graphs />
     </div>
   );
 };
