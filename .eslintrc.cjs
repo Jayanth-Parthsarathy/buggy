@@ -15,7 +15,6 @@ const config = {
     // Feel free to reconfigure them to your own preference.
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
-
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
@@ -30,6 +29,9 @@ const config = {
         checksVoidReturn: { attributes: false },
       },
     ],
+    
+    // Disable the no-empty-interface rule
+    "@typescript-eslint/no-empty-interface": "off",
   },
 };
 
