@@ -10,7 +10,7 @@ const Dashboard =  ({ session }: DashboardProps) => {
     <div className="flex-1 p-6">
       <div className="px-6">
         {session?.user.role === "ADMIN" ? (
-          <AdminDashBoard />
+          <AdminDashBoard session={session} />
         ) : session?.user.role === "DEVELOPER" ? (
           <div>DEVELOPER</div>
         ) : session?.user.role === "TESTER" ? (
