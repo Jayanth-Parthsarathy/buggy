@@ -30,6 +30,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "lucide-react": "^0.289.0",
+    "moment": "^2.29.4",
     "next": "^13.5.4",
     "next-auth": "^4.23.0",
     "nodemailer": "^6.9.7",

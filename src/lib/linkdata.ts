@@ -31,7 +31,7 @@ export const developerLinks: Link[] = [
   },
   {
     text: "My tickets",
-    href: "/dev/tickets",
+    href: "/developer/tickets",
   },
 ];
 

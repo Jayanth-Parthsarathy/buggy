@@ -130,6 +130,17 @@ const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
     },
   });
 });
+const enforceUserIsDeveloper = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role!=="DEVELOPER") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
 
 /**
  * Protected (authenticated) procedure
@@ -141,3 +152,4 @@ const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
+export const devProcedure = t.procedure.use(enforceUserIsDeveloper);

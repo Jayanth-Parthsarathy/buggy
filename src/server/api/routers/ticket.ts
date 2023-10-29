@@ -1,8 +1,11 @@
 import { z } from "zod";
 
-import { createTRPCRouter, adminProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  adminProcedure,
+  devProcedure,
+} from "@/server/api/trpc";
 import { Priority, Status } from "@prisma/client";
-import TicketAssignedGraph from "@/components/custom/admin/graphs/ticketassignedgraph";
 
 export const ticketRouter = createTRPCRouter({
   getAllTickets: adminProcedure.query(({ ctx }) => {
@@ -112,6 +115,45 @@ export const ticketRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.ticket.delete({
         where: { id: input },
+      });
+    }),
+  getDeveloperTickets: devProcedure.query(({ ctx }) => {
+    return ctx.db.ticket.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: {
+        assignedTo: {
+          some: {
+            id: ctx.session.user.id,
+          },
+        },
+      },
+    });
+  }),
+  getDeveloperTicketById: devProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.db.ticket.findFirst({
+        where: {
+          id: input,
+          assignedTo: {
+            some: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
+        include: {
+          comments: {
+            orderBy: {
+              createdAt: "desc"
+            },
+            include: {
+              author: true,
+            },
+          },
+          assignedTo: true,
+        },
       });
     }),
 });

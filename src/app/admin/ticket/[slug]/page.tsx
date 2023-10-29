@@ -1,6 +1,7 @@
 import DeleteTicket from "@/components/custom/admin/deleteticket";
 import { api } from "@/trpc/server";
 import { Edit } from "lucide-react";
+import moment from "moment";
 import Link from "next/link";
 
 const MemberView = async ({ params }: { params: { slug: string } }) => {
@@ -40,18 +41,22 @@ const MemberView = async ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold">Comments</h3>
+          <h3 className="text-xl font-semibold mb-3">Comments</h3>
           {ticket?.comments.length !== 0 ? (
-            <ul className="list-disc pl-8">
+            <div className="flex flex-col gap-3">
               {ticket?.comments.map((comment) => (
-                <li key={comment.id} className="mt-2">
-                  <div className="flex justify-between">
-                    <div>{comment.text}</div>
-                    <div>- {comment.author.name}</div>
-                  </div>
-                </li>
+                <div
+                  key={comment.id}
+                  className="flex flex-col justify-between border-2 border-gray-200 p-3"
+                >
+                  <p className="text-muted-foreground">
+                    <span className="font-semibold">{comment.author.name}</span>{" "}
+                    commented {moment(comment.createdAt).fromNow()}{" "}
+                  </p>
+                  <p>{comment.text}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
             <p className="p-4">No comments available</p>
           )}

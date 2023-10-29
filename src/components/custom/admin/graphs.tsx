@@ -24,7 +24,7 @@ const Graphs = () => {
         <UserRoleGraph />
       </div>
       <div className="col-span-2 flex flex-col items-center justify-center gap-4">
-        <h1>User roles</h1>
+        <h1>Ticket Un/Assigned</h1>
         <TicketAssignedGraph />
       </div>
     </div>
