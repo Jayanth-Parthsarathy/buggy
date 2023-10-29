@@ -1,6 +1,6 @@
 "use client";
 import { api } from "@/trpc/react";
-import { Ticket } from "@prisma/client";
+import type { Ticket } from "@prisma/client";
 import { Pie, PieChart, Tooltip } from "recharts";
 
 export type TicketStatusGraphDataType = {

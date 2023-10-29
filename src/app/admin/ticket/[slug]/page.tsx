@@ -1,11 +1,22 @@
+import DeleteTicket from "@/components/custom/admin/deleteticket";
 import { api } from "@/trpc/server";
+import { Edit } from "lucide-react";
+import Link from "next/link";
 
 const MemberView = async ({ params }: { params: { slug: string } }) => {
   const ticket = await api.ticket.getTicketById.query(params.slug);
   return (
     <div className="mx-auto max-w-2xl p-6">
       <div className="rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mb-4 text-3xl font-semibold">{ticket?.title}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="mb-4 text-3xl font-semibold">{ticket?.title}</h2>
+          <div className="flex gap-4">
+            <Link href={`/admin/tickets/edit/${ticket?.id}`}>
+              <Edit className="text-green-500" />
+            </Link>
+            <DeleteTicket ticketId={ticket?.id} />
+          </div>
+        </div>
         <p className="mb-4 text-gray-600">{ticket?.description}</p>
 
         <div className="mb-6">

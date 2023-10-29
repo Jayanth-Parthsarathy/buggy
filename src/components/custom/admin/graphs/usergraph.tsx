@@ -1,6 +1,6 @@
 "use client";
 import { api } from "@/trpc/react";
-import { Role, User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { Pie, PieChart, Tooltip } from "recharts";
 
 export type UserRoleGraphDataType = {
@@ -46,12 +46,7 @@ const UserRoleGraph = () => {
   return (
     <>
       <PieChart width={500} height={250}>
-        <Pie
-          data={graphData}
-          dataKey="number"
-          nameKey="role"
-          fill="#000000"
-        />
+        <Pie data={graphData} dataKey="number" nameKey="role" fill="#000000" />
         <Tooltip />
       </PieChart>
     </>

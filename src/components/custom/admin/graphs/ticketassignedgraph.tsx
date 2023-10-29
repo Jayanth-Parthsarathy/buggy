@@ -1,6 +1,6 @@
 "use client";
 import { api } from "@/trpc/react";
-import { Priority, Ticket, User } from "@prisma/client";
+import type { Ticket, User } from "@prisma/client";
 import dynamic from "next/dynamic";
 import { Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 

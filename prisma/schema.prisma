@@ -87,7 +87,7 @@ model Ticket {
   assignedTo  User[]    @relation("assignedTickets")
   reporter    User      @relation("reportedTickets", fields: [reporterId], references: [id])
   reporterId  String
-  comments    Comment[]
+  comments    Comment[] 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -97,7 +97,7 @@ model Comment {
   text      String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   ticketId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
