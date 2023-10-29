@@ -13,7 +13,6 @@ const DeveloperDashBoard = (props: Props) => {
         Welcome {props.session?.user.name}!
       </h1>
       <h1 className="mt-4 text-center text-2xl">Overview</h1>
-      //Todo graphs
     </div>
   );
 };
