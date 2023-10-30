@@ -1,8 +1,8 @@
+import AssignUser from "@/components/custom/admin/assignuser";
 import BanUser from "@/components/custom/admin/banuser";
 import { api } from "@/trpc/server";
 import Link from "next/link";
 import React from "react";
-
 
 const MemberListing = async () => {
   const users = await api.member.getAllMembers.query();
@@ -28,7 +28,10 @@ const MemberListing = async () => {
                   <p className="text-gray-500">{user.email}</p>
                 </div>
               </div>
-              <BanUser user={user} userId={user.id} />
+              <div className="flex items-center justify-center gap-3">
+                <AssignUser userId={user.id} />
+                <BanUser user={user} userId={user.id} />
+              </div>
             </div>
           </li>
         ))}

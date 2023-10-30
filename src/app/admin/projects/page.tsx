@@ -20,7 +20,7 @@ const ProjectManagementPage = async () => {
               <h2 className="mb-2 text-lg font-semibold">{project.name}</h2>{" "}
             </Link>
             <p className="text-gray-600">{project.description}</p>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-2">
               <Link href={`/admin/projects/edit/${project.id}`}>
                 <Edit className="text-green-500" />
               </Link>

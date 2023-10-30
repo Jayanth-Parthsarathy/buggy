@@ -379,7 +379,7 @@ const EditTicketForm = ({ ticketId }: { ticketId: string }) => {
                                   : "opacity-0",
                               )}
                             />
-                            {user.name}
+                            {user.name} @{user.email}
                           </CommandItem>
                         ))}
                       </CommandGroup>

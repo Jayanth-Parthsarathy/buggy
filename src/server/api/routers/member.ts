@@ -1,9 +1,7 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  adminProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, adminProcedure } from "@/server/api/trpc";
+import { Role } from "@prisma/client";
 
 export const memberRouter = createTRPCRouter({
   getAllMembers: adminProcedure.query(({ ctx }) => {
@@ -15,6 +13,13 @@ export const memberRouter = createTRPCRouter({
       include: { assignedTickets: true, comments: true, reportedTickets: true },
     });
   }),
+  getOnlyMemberById: adminProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.db.user.findFirst({
+        where: { id: input },
+      });
+    }),
   banUnbanUser: adminProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
@@ -31,5 +36,22 @@ export const memberRouter = createTRPCRouter({
         });
       }
       return user;
+    }),
+  changeUserRole: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        role: z.nativeEnum(Role),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          role: input.role,
+        },
+      });
     }),
 });
