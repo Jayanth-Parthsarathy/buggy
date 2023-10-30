@@ -1,7 +1,7 @@
 "use client";
 import { signIn, signOut } from "next-auth/react";
 import { Button } from "../ui/button";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { Mail } from "lucide-react";
 
 type Props = {

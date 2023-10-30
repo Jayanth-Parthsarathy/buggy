@@ -1,7 +1,6 @@
 import DeleteProject from "@/components/custom/admin/deleteproject";
-import DeleteProjectButton from "@/components/custom/admin/deleteprojectbutton";
 import { api } from "@/trpc/server";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import Link from "next/link";
 
 const ProjectManagementPage = async () => {

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/trpc/react";
-import { User } from "@prisma/client";
+import type{ User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 type Props = {
   userId: string | undefined;

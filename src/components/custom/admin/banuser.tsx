@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Gavel } from "lucide-react";
 import BanUserButton from "./banuserbutton";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 
 type BanUserProps = {
   userId: string | undefined;

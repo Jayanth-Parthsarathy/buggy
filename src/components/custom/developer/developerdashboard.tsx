@@ -1,6 +1,5 @@
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import React from "react";
-import MyTickets from "./mytickets";
 
 type Props = {
   session: Session | null;

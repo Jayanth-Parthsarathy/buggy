@@ -1,4 +1,4 @@
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import AdminDashBoard from "./admin/admindashboard";
 import DeveloperDashBoard from "./developer/developerdashboard";
 import TesterDashboard from "./tester/testerdashboard";
@@ -17,9 +17,9 @@ const Dashboard = ({ session }: DashboardProps) => {
         ) : session?.user.role === "DEVELOPER" ? (
           <DeveloperDashBoard session={session} />
         ) : session?.user.role === "TESTER" ? (
-        <TesterDashboard />
+          <TesterDashboard />
         ) : (
-        <ReporterDashboard />
+          <ReporterDashboard />
         )}
       </div>
     </div>

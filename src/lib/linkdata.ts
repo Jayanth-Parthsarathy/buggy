@@ -1,4 +1,4 @@
-import { Link } from "@/components/custom/dashboard/sidebar";
+import type { Link } from "@/components/custom/dashboard/sidebar";
 
 export const adminLinks: Link[] = [
   {
@@ -22,7 +22,6 @@ export const adminLinks: Link[] = [
     href: "/admin/members",
   },
 ];
-
 
 export const developerLinks: Link[] = [
   {
@@ -61,7 +60,7 @@ export const reporterLinks: Link[] = [
   },
 ];
 
-export const defaultLinks : Link[] = [
+export const defaultLinks: Link[] = [
   {
     text: "Home",
     href: "/",
