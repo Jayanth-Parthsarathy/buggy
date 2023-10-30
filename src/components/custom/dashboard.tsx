@@ -1,6 +1,8 @@
 import { Session } from "next-auth";
 import AdminDashBoard from "./admin/admindashboard";
 import DeveloperDashBoard from "./developer/developerdashboard";
+import TesterDashboard from "./tester/testerdashboard";
+import ReporterDashboard from "./reporter/reporterdashboard";
 
 interface DashboardProps {
   session: Session | null;
@@ -15,9 +17,9 @@ const Dashboard = ({ session }: DashboardProps) => {
         ) : session?.user.role === "DEVELOPER" ? (
           <DeveloperDashBoard session={session} />
         ) : session?.user.role === "TESTER" ? (
-          <div>TESTER</div>
+        <TesterDashboard />
         ) : (
-          <div>REPORTER</div>
+        <ReporterDashboard />
         )}
       </div>
     </div>

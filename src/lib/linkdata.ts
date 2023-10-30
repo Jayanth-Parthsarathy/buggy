@@ -42,7 +42,7 @@ export const testerLinks: Link[] = [
   },
   {
     text: "Test resolved tickets",
-    href: "/test/tickets",
+    href: "/tester/tickets",
   },
 ];
 

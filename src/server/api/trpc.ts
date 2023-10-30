@@ -120,7 +120,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 });
 
 const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user || ctx.session.user.role!=="ADMIN") {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role !== "ADMIN") {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
@@ -131,7 +131,12 @@ const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
   });
 });
 const enforceUserIsDeveloper = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user || ctx.session.user.role!=="DEVELOPER") {
+  if (
+    !ctx.session ||
+    !ctx.session.user ||
+    ctx.session.user.role !== "DEVELOPER" ||
+    ctx.session.user.isBanned
+  ) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
@@ -142,6 +147,39 @@ const enforceUserIsDeveloper = t.middleware(({ ctx, next }) => {
   });
 });
 
+const enforceUserIsReporter = t.middleware(({ ctx, next }) => {
+  if (
+    !ctx.session ||
+    !ctx.session.user ||
+    ctx.session.user.role !== "REPORTER" ||
+    ctx.session.user.isBanned
+  ) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+const enforceUserIsTester = t.middleware(({ ctx, next }) => {
+  if (
+    !ctx.session ||
+    !ctx.session.user ||
+    ctx.session.user.role !== "TESTER" ||
+    ctx.session.user.isBanned
+  ) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
 /**
  * Protected (authenticated) procedure
  *
@@ -153,3 +191,5 @@ const enforceUserIsDeveloper = t.middleware(({ ctx, next }) => {
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 export const adminProcedure = t.procedure.use(enforceUserIsAdmin);
 export const devProcedure = t.procedure.use(enforceUserIsDeveloper);
+export const reporterProcedure = t.procedure.use(enforceUserIsReporter);
+export const testerProcedure = t.procedure.use(enforceUserIsTester);

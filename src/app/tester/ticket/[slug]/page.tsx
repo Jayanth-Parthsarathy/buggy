@@ -8,8 +8,8 @@ import {
 import { api } from "@/trpc/server";
 import moment from "moment";
 
-const DevTicketView = async ({ params }: { params: { slug: string } }) => {
-  const ticket = await api.ticket.getDeveloperTicketById.query(params.slug);
+const ReporterTicketView = async ({ params }: { params: { slug: string } }) => {
+  const ticket = await api.ticket.getTesterTicketById.query(params.slug);
   return (
     <div className="m-10 bg-white p-4 shadow-md">
       <div className="m-4 flex items-center justify-between p-2">
@@ -66,9 +66,9 @@ const DevTicketView = async ({ params }: { params: { slug: string } }) => {
               className="flex flex-col justify-between border-2 border-gray-200 p-3"
             >
               <p className="text-muted-foreground">
-                <span className="font-semibold">{comment.author.name}</span>
-                commented {moment(comment.createdAt).fromNow()}
-                <p className="">@{getFormattedRole(comment.author.role)}</p>
+                <span className="font-semibold">{comment.author.name}</span>{" "}
+                commented {moment(comment.createdAt).fromNow()}{" "}
+              <p className="">@{getFormattedRole(comment.author.role)}</p>
               </p>
               <p>{comment.text}</p>
             </div>
@@ -82,4 +82,4 @@ const DevTicketView = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default DevTicketView;
+export default ReporterTicketView;

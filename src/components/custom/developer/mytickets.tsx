@@ -5,7 +5,6 @@ import React from "react";
 
 const MyTickets = async () => {
   const tickets = await api.ticket.getDeveloperTickets.query();
-  console.log(tickets);
   return (
     <div className="p-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

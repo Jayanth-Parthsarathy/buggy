@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -35,5 +36,17 @@ export const getPriorityColor = (priority: string | undefined) => {
 };
 
 export const getFormattedDate = (date: Date | undefined): string => {
-  return date ? date.toLocaleString() : ""
+  return date ? date.toLocaleString() : "";
+};
+
+export const getFormattedRole = (role: Role): string => {
+  return role === "ADMIN"
+    ? "Admin"
+    : role === "TESTER"
+    ? "Tester"
+    : role === "DEVELOPER"
+    ? "Developer"
+    : role === "REPORTER"
+    ? "Reporter"
+    : "";
 };

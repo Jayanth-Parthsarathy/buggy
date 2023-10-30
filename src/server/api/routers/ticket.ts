@@ -4,6 +4,8 @@ import {
   createTRPCRouter,
   adminProcedure,
   devProcedure,
+  reporterProcedure,
+  testerProcedure,
 } from "@/server/api/trpc";
 import { Priority, Status } from "@prisma/client";
 
@@ -40,6 +42,29 @@ export const ticketRouter = createTRPCRouter({
           assignedTo: {
             connect: assignedUsers.map((id) => ({ id: id })),
           },
+          description,
+          reporterId: ctx.session.user.id,
+        },
+      });
+    }),
+  reportBug: reporterProcedure
+    .input(
+      z.object({
+        title: z.string().min(5),
+        description: z.string().min(5),
+        status: z.nativeEnum(Status),
+        priority: z.nativeEnum(Priority),
+        project: z.string().min(1),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      const { title, description, status, priority, project } = input;
+      return ctx.db.ticket.create({
+        data: {
+          title,
+          projectId: project,
+          priority,
+          status,
           description,
           reporterId: ctx.session.user.id,
         },
@@ -146,13 +171,63 @@ export const ticketRouter = createTRPCRouter({
         include: {
           comments: {
             orderBy: {
-              createdAt: "desc"
+              createdAt: "desc",
             },
             include: {
               author: true,
             },
           },
           assignedTo: true,
+        },
+      });
+    }),
+  getAllTesterTickets: testerProcedure.query(({ ctx }) => {
+    return ctx.db.ticket.findMany({
+      include: {
+        reporter: true,
+        assignedTo: true,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+  }),
+  getTesterTicketById: testerProcedure
+    .input(z.string())
+    .query(({ input, ctx }) => {
+      return ctx.db.ticket.findFirst({
+        where: {
+          id: input,
+        },
+        include: {
+          reporter: true,
+          assignedTo: true,
+          comments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            include: {
+              author: true,
+            },
+          },
+        },
+      });
+    }),
+  changeTicketStatus: testerProcedure
+    .input(
+      z.object({
+        status: z.nativeEnum(Status),
+        ticketId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { ticketId, status } = input;
+      return ctx.db.ticket.update({
+        where: {
+          id: ticketId,
+        },
+        data: {
+          status,
         },
       });
     }),

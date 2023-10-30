@@ -37,7 +37,6 @@ const formSchema = z.object({
   status: z.nativeEnum(Status),
   priority: z.nativeEnum(Priority),
   project: z.string(),
-  assignedUsers: z.array(z.string()),
 });
 
 const priorities = [
@@ -54,9 +53,9 @@ const statuses = [
   { label: "Additional Info required", value: "ADDITIONAL_INFO_REQUIRED" },
 ] as const;
 
-const AddTicketForm = () => {
+const ReportBug = () => {
   const { toast } = useToast();
-  const { mutate: createTicket } = api.ticket.createTicket.useMutation({
+  const { mutate: createTicket } = api.ticket.reportBug.useMutation({
     onSuccess: ({ title }) => {
       toast({
         title: "Ticket created successfully",
@@ -65,7 +64,6 @@ const AddTicketForm = () => {
     },
   });
   const { data: projects } = api.project.getAllProjects.useQuery();
-  const { data: users } = api.member.getAllMembers.useQuery();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,24 +72,20 @@ const AddTicketForm = () => {
       project: "",
       priority: "LOW",
       status: "NEW",
-      assignedUsers: [],
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const { title, description, project, priority, status, assignedUsers } =
-      values;
+    const { title, description, project, priority, status } = values;
     createTicket({
       title,
       description,
       project,
       priority,
       status,
-      assignedUsers,
     });
   }
   return (
-    <div className="px-6">
-      <h1 className="font-heading text-2xl md:text-2xl">Add a new ticket</h1>
+    <div className="mt-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -103,7 +97,7 @@ const AddTicketForm = () => {
                 <FormControl>
                   <Input placeholder="Name..." {...field} />
                 </FormControl>
-                <FormDescription>This is your ticket name</FormDescription>
+                <FormDescription>This is your project name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -307,74 +301,6 @@ const AddTicketForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="assignedUsers"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Assigned Users</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value.length > 0
-                          ? "Selected Users"
-                          : "Select users"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search users..." />
-                      <CommandEmpty>No users found</CommandEmpty>
-                      <CommandGroup>
-                        {users?.map((user) => (
-                          <CommandItem
-                            value={user.id}
-                            key={user.id}
-                            onSelect={() => {
-                              // Toggle the selection of users.
-                              if (field.value.includes(user.id)) {
-                                form.setValue(
-                                  "assignedUsers",
-                                  field.value.filter((id) => id !== user.id),
-                                );
-                              } else {
-                                form.setValue("assignedUsers", [
-                                  ...field.value,
-                                  user.id,
-                                ]);
-                              }
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                field.value.includes(user.id)
-                                  ? "opacity-100"
-                                  : "opacity-0",
-                              )}
-                            />
-                            {user.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>Assign users to the ticket</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button type="submit">Submit</Button>
         </form>
       </Form>
@@ -382,4 +308,4 @@ const AddTicketForm = () => {
   );
 };
 
-export default AddTicketForm;
+export default ReportBug;
