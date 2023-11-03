@@ -5,11 +5,15 @@ import { Role } from "@prisma/client";
 
 export const memberRouter = createTRPCRouter({
   getAllMembers: adminProcedure.query(({ ctx }) => {
-    return ctx.db.user.findMany({});
+    return ctx.db.user.findMany({
+      where: {
+        companyId: ctx.session.user.companyId,
+      },
+    });
   }),
   getMemberById: adminProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.user.findFirst({
-      where: { id: input },
+      where: { id: input, companyId: ctx.session.user.companyId },
       include: { assignedTickets: true, comments: true, reportedTickets: true },
     });
   }),
@@ -17,7 +21,7 @@ export const memberRouter = createTRPCRouter({
     .input(z.string())
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({
-        where: { id: input },
+        where: { id: input, companyId: ctx.session.user.companyId },
       });
     }),
   banUnbanUser: adminProcedure
@@ -29,6 +33,7 @@ export const memberRouter = createTRPCRouter({
         await ctx.db.user.update({
           where: {
             id: input,
+            companyId: ctx.session.user.companyId,
           },
           data: {
             isBanned: updatedValue,
@@ -48,6 +53,7 @@ export const memberRouter = createTRPCRouter({
       return ctx.db.user.update({
         where: {
           id: input.userId,
+          companyId: ctx.session.user.companyId,
         },
         data: {
           role: input.role,

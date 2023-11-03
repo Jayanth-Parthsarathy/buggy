@@ -10,11 +10,14 @@ export const projectRouter = createTRPCRouter({
   getAllProjects: protectedProcedure.query(({ ctx }) => {
     return ctx.db.project.findMany({
       orderBy: { createdAt: "desc" },
+      where: {
+        companyId: ctx.session.user.companyId,
+      },
     });
   }),
   getProjectById: adminProcedure.input(z.string()).query(({ input, ctx }) => {
     return ctx.db.project.findFirst({
-      where: { id: input },
+      where: { id: input, companyId: ctx.session.user.companyId },
       include: {
         tickets: {
           include: {
@@ -33,7 +36,7 @@ export const projectRouter = createTRPCRouter({
     .input(z.string())
     .mutation(({ ctx, input }) => {
       return ctx.db.project.delete({
-        where: { id: input },
+        where: { id: input, companyId: ctx.session.user.companyId },
       });
     }),
   createProject: adminProcedure
@@ -46,6 +49,7 @@ export const projectRouter = createTRPCRouter({
           name: input.name,
           description: input.description,
           createdById: ctx.session.user.id,
+          companyId: ctx.session.user.companyId,
         },
       });
     }),
@@ -59,7 +63,7 @@ export const projectRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.project.update({
-        where: { id: input.id },
+        where: { id: input.id, companyId: ctx.session.user.companyId },
         data: {
           name: input.name,
           description: input.description,

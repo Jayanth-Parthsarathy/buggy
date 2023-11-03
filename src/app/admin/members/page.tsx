@@ -1,6 +1,7 @@
 import AssignUser from "@/components/custom/admin/assignuser";
 import BanUser from "@/components/custom/admin/banuser";
 import { api } from "@/trpc/server";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -15,10 +16,12 @@ const MemberListing = async () => {
             <div className="flex justify-between">
               <div className="flex items-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200">
-                  <img
+                  <Image
                     src={user.image ?? ""}
                     alt={`${user.name}'s avatar`}
                     className="h-12 w-12 rounded-full"
+                    width={64}
+                    height={64}
                   />
                 </div>
                 <div className="ml-4">

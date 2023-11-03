@@ -21,6 +21,10 @@ export const adminLinks: Link[] = [
     text: "Manage Members",
     href: "/admin/members",
   },
+  {
+    text: "Manage Join Requests",
+    href: "/admin/requests",
+  },
 ];
 
 export const developerLinks: Link[] = [

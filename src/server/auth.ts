@@ -23,6 +23,7 @@ declare module "next-auth" {
       // ...other properties
       role: Role;
       isBanned: boolean;
+      companyId: string;
     } & DefaultSession["user"];
   }
 
@@ -52,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           role: dbUser?.role ?? "",
           isBanned: dbUser?.isBanned,
+          companyId: dbUser?.companyId
         },
       };
     },

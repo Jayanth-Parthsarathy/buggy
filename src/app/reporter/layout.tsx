@@ -7,6 +7,9 @@ export default async function RootLayout({
 }) {
   const session = await getServerAuthSession();
   const role = session?.user.role;
+  if(!session?.user.companyId){
+    return redirect("/company");
+  }
   if (role === "REPORTER") {
     return <>{children}</>;
   } else {

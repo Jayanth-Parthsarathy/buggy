@@ -1,4 +1,5 @@
 import { api } from "@/trpc/server";
+import Image from "next/image";
 
 const MemberView = async ({ params }: { params: { slug: string } }) => {
   const user = await api.member.getMemberById.query(params.slug);
@@ -6,9 +7,11 @@ const MemberView = async ({ params }: { params: { slug: string } }) => {
     <div className="mx-auto max-w-2xl p-6">
       <div className="rounded-lg bg-white p-6 shadow-md">
         <div className="text-center">
-          <img
+          <Image
             src={user?.image ?? ""}
             alt={user?.name ?? ""}
+            width={64}
+            height={64}
             className="mx-auto h-16 w-16 rounded-full"
           />
           <h2 className="mt-4 text-2xl font-semibold">{user?.name}</h2>

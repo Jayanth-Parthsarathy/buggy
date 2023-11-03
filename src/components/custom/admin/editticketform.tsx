@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Priority, Status } from "@prisma/client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z.string().min(5),
@@ -56,6 +57,7 @@ const statuses = [
 ] as const;
 
 const EditTicketForm = ({ ticketId }: { ticketId: string }) => {
+  const router = useRouter();
   const { toast } = useToast();
   const { data: ticket } = api.ticket.getTicketById.useQuery(ticketId);
   const { mutate: editTicket } = api.ticket.editTicket.useMutation({
@@ -64,6 +66,8 @@ const EditTicketForm = ({ ticketId }: { ticketId: string }) => {
         title: "Ticket created successfully",
         description: `Name: ${title}`,
       });
+      router.refresh();
+      router.push("/admin/tickets");
     },
   });
   const { data: projects } = api.project.getAllProjects.useQuery();

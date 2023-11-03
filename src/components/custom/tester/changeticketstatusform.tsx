@@ -30,11 +30,11 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Status } from "@prisma/client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   status: z.nativeEnum(Status),
 });
-
 
 const statuses = [
   { label: "New", value: "NEW" },
@@ -47,12 +47,15 @@ const statuses = [
 const ChangeTicketStatusForm = ({ ticketId }: { ticketId: string }) => {
   const { toast } = useToast();
   const { data: ticket } = api.ticket.getTesterTicketById.useQuery(ticketId);
+  const  router  = useRouter();
   const { mutate: editTicket } = api.ticket.changeTicketStatus.useMutation({
     onSuccess: ({ title }) => {
       toast({
         title: "Ticket status changed successfully",
         description: `Name: ${title}`,
       });
+      router.refresh()
+      router.push("/tester/tickets");
     },
   });
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,8 +65,7 @@ const ChangeTicketStatusForm = ({ ticketId }: { ticketId: string }) => {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const {     status} =
-      values;
+    const { status } = values;
     editTicket({
       ticketId,
       status,
@@ -76,7 +78,7 @@ const ChangeTicketStatusForm = ({ ticketId }: { ticketId: string }) => {
   }, [ticket, form]);
   return (
     <div className="px-6">
-    <h1 className="text-2xl font-semibold mb-4 p-4">{ticket?.title}</h1>
+      <h1 className="mb-4 p-4 text-2xl font-semibold">{ticket?.title}</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
