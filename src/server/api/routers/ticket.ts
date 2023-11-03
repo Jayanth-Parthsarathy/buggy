@@ -12,6 +12,11 @@ import { Priority, Status } from "@prisma/client";
 export const ticketRouter = createTRPCRouter({
   getAllTickets: adminProcedure.query(({ ctx }) => {
     return ctx.db.ticket.findMany({
+      where: {
+        project: {
+          companyId: ctx.session.user.companyId,
+        },
+      },
       orderBy: { createdAt: "desc" },
       include: {
         reporter: true,

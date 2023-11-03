@@ -1,13 +1,29 @@
 import { Button } from "@/components/ui/button";
+import { getServerAuthSession } from "@/server/auth";
 import Link from "next/link";
 
-const CompanyPage = () => {
+const CompanyPage = async () => {
+  const session = await getServerAuthSession();
+  if (!session?.user) {
+    return (
+      <div className="mx-auto my-60 flex h-96 w-96 flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+        <h1 className="mb-10 text-2xl font-semibold">
+          You need to login before you can continue
+        </h1>
+      </div>
+    );
+  }
+
   return (
-    <div className="h-96 w-96 shadow-md rounded-lg flex items-center justify-center gap-10 mx-auto my-60 flex-col">
-      <h1 className="text-2xl font-semibold mb-10">Create or Join a company</h1>
+    <div className="mx-auto my-60 flex h-96 w-96 flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+      <h1 className="mb-10 text-2xl font-semibold">Create or Join a company</h1>
       <div className="flex gap-4">
-      <Link href="/company/create"><Button>Create company</Button> </Link>
-      <Link href="/company/join"><Button>Join company</Button> </Link>
+        <Link href="/company/create">
+          <Button>Create company</Button>{" "}
+        </Link>
+        <Link href="/company/join">
+          <Button>Join company</Button>{" "}
+        </Link>
       </div>
     </div>
   );

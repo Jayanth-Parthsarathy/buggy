@@ -66,7 +66,7 @@ const DevTicketView = async ({ params }: { params: { slug: string } }) => {
               className="flex flex-col justify-between border-2 border-gray-200 p-3"
             >
               <p className="text-muted-foreground">
-                <span className="font-semibold">{comment.author.name}</span>
+                <span className="font-semibold">{comment.author.name}{" "}</span>
                 commented {moment(comment.createdAt).fromNow()}
                 <p className="">@{getFormattedRole(comment.author.role)}</p>
               </p>
