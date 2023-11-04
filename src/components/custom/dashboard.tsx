@@ -17,9 +17,11 @@ const Dashboard = ({ session }: DashboardProps) => {
         ) : session?.user.role === "DEVELOPER" ? (
           <DeveloperDashBoard session={session} />
         ) : session?.user.role === "TESTER" ? (
-          <TesterDashboard />
+          <TesterDashboard session={session} />
+        ) : session?.user.role === "REPORTER" ? (
+          <ReporterDashboard session={session} />
         ) : (
-          <ReporterDashboard />
+          <div>Login to continue</div>
         )}
       </div>
     </div>

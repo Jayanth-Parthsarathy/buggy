@@ -8,23 +8,23 @@ const Graphs = () => {
   return (
     <div className="m-3 grid grid-cols-3 gap-5 gap-y-1 p-6">
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1>Ticket priority</h1>
+        <h1 className="mt-4 text-center text-2xl">Ticket priority</h1>
         <TicketPriorityGraph />
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1>No of tickets reported by each user</h1>
+        <h1 className="mt-4 text-center text-2xl">No of tickets reported by each user</h1>
         <ReporterStatusGraph />
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1>Ticket status</h1>
+        <h1 className="mt-4 text-center text-2xl">Ticket status</h1>
         <TicketStatusGraph />
       </div>
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1>User roles</h1>
+        <h1 className="mt-4 text-center text-2xl">User roles</h1>
         <UserRoleGraph />
       </div>
       <div className="col-span-2 flex flex-col items-center justify-center gap-4">
-        <h1>Ticket Un/Assigned</h1>
+        <h1 className="mt-4 text-center text-2xl">Ticket Un/Assigned</h1>
         <TicketAssignedGraph />
       </div>
     </div>

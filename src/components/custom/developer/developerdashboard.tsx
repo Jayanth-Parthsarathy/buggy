@@ -1,5 +1,5 @@
 import type { Session } from "next-auth";
-import React from "react";
+import DeveloperGraphs from "./developergraphs";
 
 type Props = {
   session: Session | null;
@@ -12,6 +12,9 @@ const DeveloperDashBoard = (props: Props) => {
         Welcome {props.session?.user.name}!
       </h1>
       <h1 className="mt-4 text-center text-2xl">Overview</h1>
+      <div>
+        <DeveloperGraphs />
+      </div>
     </div>
   );
 };

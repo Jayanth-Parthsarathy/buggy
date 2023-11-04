@@ -152,6 +152,9 @@ export const ticketRouter = createTRPCRouter({
       orderBy: {
         createdAt: "desc",
       },
+      include:{
+        project : true,
+      },
       where: {
         assignedTo: {
           some: {
