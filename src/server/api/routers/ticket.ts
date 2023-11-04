@@ -6,6 +6,7 @@ import {
   devProcedure,
   reporterProcedure,
   testerProcedure,
+  protectedProcedure,
 } from "@/server/api/trpc";
 import { Priority, Status } from "@prisma/client";
 
@@ -21,6 +22,15 @@ export const ticketRouter = createTRPCRouter({
       include: {
         reporter: true,
         assignedTo: true,
+      },
+    });
+  }),
+  getReporterTickets: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.ticket.findMany({
+      where: {
+        project: {
+          companyId: ctx.session.user.companyId,
+        },
       },
     });
   }),

@@ -6,11 +6,9 @@ const CompanyPage = async () => {
   const session = await getServerAuthSession();
   if (!session?.user) {
     return (
-      <div className="mx-auto my-60 flex h-96 w-96 flex-col items-center justify-center gap-10 rounded-lg shadow-md">
-        <h1 className="mb-10 text-2xl font-semibold">
+        <h1 className="mb-10 text-3xl mt-52 font-semibold text-center">
           You need to login before you can continue
         </h1>
-      </div>
     );
   }
 
