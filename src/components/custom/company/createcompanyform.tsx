@@ -33,7 +33,7 @@ const CreateCompanyForm = () => {
   const { mutate: createCompany } = api.company.createCompany.useMutation({
     onSuccess: ({ name }) => {
       toast({
-        title: "Ticket created successfully",
+        title: "Company created successfully",
         description: `Name: ${name}`,
       });
       router.refresh();
